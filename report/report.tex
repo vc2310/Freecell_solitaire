@@ -1,0 +1,265 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{hhline}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+\renewcommand\baselinestretch{1.0}
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+%% Comments
+
+\usepackage{color}
+
+\newif\ifcomments\commentstrue
+
+\ifcomments
+\newcommand{\authornote}[3]{\textcolor{#1}{[#3 ---#2]}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+\newcommand{\authornote}[3]{}
+\newcommand{\todo}[1]{}
+\fi
+
+\newcommand{\wss}[1]{\authornote{blue}{SS}{#1}}
+
+\title{Assignment 4, Part 1, Specification}
+\author{SFWR ENG 2AA4}
+
+\begin {document}
+
+\maketitle
+
+Submit your design specification, written in LaTeX, of the MIS for the game
+state module.  If your specification requires additional modules, you should
+include their MISes as well.  It is up to you to determine your modules
+interface; that is, you decide on the exported constants, access programs,
+exceptions etc.  You also determine your state variables and specify the
+semantics for your access program calls.  Your design does not need to concern
+itself with performance.
+
+
+\newpage
+
+
+\section* {Cards ADT Module}
+
+\subsection*{Template Module}
+
+CardsT
+
+\subsection* {Uses}
+
+N/A
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Types}
+
+CardsT = ?
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+CardsT & Strings, Strings & CardsT & \\
+\hline
+getRank & ~ & Strings & ~\\
+\hline
+getSuit & ~ & Strings & ~\\
+\hline
+getColour & ~ & Strings & ~\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+$ranks$: Strings\\
+$suits$: Strings
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Assumptions}
+
+The constructor CardsT is called for each object instance before any other
+access routine is called for that object.  The constructor cannot be called on
+an existing object.
+
+\subsubsection* {Access Routine Semantics}
+
+CardsT($r, s$):
+\begin{itemize}
+\item transition: $ranks, suits := r, s$
+\item output: $out := \mathit{self}$
+\item exception: None
+\end{itemize}
+
+\noindent getRank():
+\begin{itemize}
+\item output: $out := ranks$
+\item exception: None
+\end{itemize}
+
+\noindent getSuit():
+\begin{itemize}
+\item output: $out := suits$
+\item exception: None
+\end{itemize}
+
+\noindent getColour():
+\begin{itemize}
+	\item output: $out := "Heart" \lor "Diamond" \implies "Red" | "Black"$
+	\item exception: None
+\end{itemize}
+
+\newpage
+
+\section* {CardsGame Module}
+
+\subsection*{Template Module}
+
+Game
+
+\subsection* {Uses}
+
+CardsT
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Types}
+
+CardsDeck = ?
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+	\hline
+	\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+	\hline
+	CardsDeck &  & CardsDeck & \\
+	\hline
+	ShufflingDeck & ~ & ~ & ~\\
+	\hline
+	DealingCards & ~ & ~ & ~\\
+	\hline
+	moveCard & $\mathit{Z},\mathit{Z}$ & Sequence of (Sequence of CardsT) & ~\\
+	\hline
+	moveCardFreecell & $\mathit{Z}$ & ~ & ~\\
+	\hline
+	moveCardFoundation & $\mathit{Z},\mathit{Z}$ & ~ & ~\\
+	\hline
+	checkValidMove & $\mathit{Z},\mathit{Z}$ & $\mathit{B}$ & ~\\
+	\hline
+	checkValidMoveFreecell & ~ & $\mathit{B}$ & ~\\
+	\hline
+	checkValidMoveFoundation & $\mathit{Z},\mathit{Z}$ & $\mathit{B}$ & ~\\
+	\hline
+	winningSituation & ~ & $\mathit{B}$ & ~\\
+	\hline
+	
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+$deck[52]$: CardsT\\
+$columns$: Sequence of (Sequence of CardsT)\\
+$freecell$: Sequence of CardsT\\
+$foundation$: Sequence of (Sequence of CardsT)\\
+
+\subsubsection* {State Invariant}
+
+SIZE = 52
+
+\subsubsection* {Assumptions}
+
+The constructor CardsDeck is called for each object instance before any other
+access routine is called for that object.  The constructor cannot be called on
+an existing object.
+
+\subsubsection* {Access Routine Semantics}
+
+CardsDeck():
+\begin{itemize}
+	\item transition: $i\in\mathit{N}|i\in[0..SIZE]:deck[i]=CardsT(ranks[i \% 13], suits[i / 13])$
+	\item output: $out := \mathit{self}$
+	\item exception: None
+\end{itemize}
+
+\noindent ShufflingDeck():
+\begin{itemize}
+	\item transition: $i\in\mathit{N},j\in\mathit{N}|i\in[0..SIZE],j = (rand() + time(0)) \% SIZE:deck[i],deck[j]=deck[j],deck[i]$
+	\item exception: None
+\end{itemize}
+
+\noindent DealingCards():
+\begin{itemize}
+	\item transition: $i\in\mathit{N}|i\in[0..7]:i=0\implies deck[0..6]|i=1\implies deck[7..13]|i=2\implies deck[14..20]|i=3\implies deck[21..27]|i=4\implies deck[28..33]|i=5\implies deck[34..39]|i=6\implies deck[40..45]|i=7\implies deck[46..51]|$
+	\item exception: None
+\end{itemize}
+
+\noindent moveCard(from,to):
+\begin{itemize}
+	\item transition: $(checkValidMove(from,to) = true) \implies (columns.at(to).back() = columns.at(from).back())$
+	\item output: $out :=columns$
+	\item exception: None
+\end{itemize}
+
+\noindent moveCardFreecell(from):
+\begin{itemize}
+	\item transition: $(checkValidMoveFreecell() = true) \implies (freecell.back() = columns.at(from).back())$
+	\item exception: None
+\end{itemize}
+
+\noindent moveCardFoundation(from,to):
+\begin{itemize}
+	\item transition: $(checkValidMoveFoundation(from,to) = true) \implies (foundation.at(to).back() = columns.at(from).back())$
+	\item output: $out :=columns$
+	\item exception: None
+\end{itemize}
+
+\noindent checkValidMove(from,to):
+\begin{itemize}
+	\item output: $out := (columns.at(to).back().getRank().index() - columns.at(from).back().getRank().index() = 1) \land (columns.at(from).back().getColour() != columns.at(to).back().getColour()) \implies true$
+	\item exception: None
+\end{itemize}
+
+\noindent checkValidMoveFreecell():
+\begin{itemize}
+	\item output: $out :=freecell.size() < 4 \implies true$
+	\item exception: None
+\end{itemize}
+
+\noindent checkValidMoveFoundation(from,to):
+\begin{itemize}
+	\item output: $out := (foundation.at(to).back().getRank().index() - columns.at(from).back().getRank().index() = 1) \land (columns.at(from).back().getSuit() = foundation.at(to).back().getSuit()) \implies true$
+	\item exception: None
+\end{itemize}
+
+\noindent winningSituation():
+\begin{itemize}
+	\item output: $+(i\in\mathit{N}|i\in[0..4]|foundation.at(i).size() = 13 : 1) = 4 \implies true$
+	\item exception: None
+\end{itemize}
+
+\end {document}
