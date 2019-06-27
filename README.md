@@ -8,6 +8,12 @@ Thank you and feel free to check if you are making a valid move or not :)
 ---
 ### Purpose
 
+Our vision is to maximize our employees’ utilization of provided RBC applications by providing immediate and concise application support and resources.
+
+Currently, retrieving application information within RBC is a long and sometimes inaccessible process, especially for new employees. It is challenging to find sufficient information regarding various applications on IIPM do to the complexity of provided reports that are sometimes outdated. Moreover, app codes are key in knowing applications, and currently mean very little for anyone who does not play a development-related role. It is also difficult to contact support for applications if the user is unfamiliar with application functionality.
+
+Kodi is an employee application support and search engine that aims to encourage and maximize the use of RBC tools in order to optimize productivity of RBC application users. Kodi provides a concise summary regarding IIPM support and those responsible for RBC applications.
+
 ### Tech
 
 Kodi uses the following tech(s) to work properly:
@@ -21,10 +27,14 @@ Kodi uses the following tech(s) to work properly:
 1. When Kodi says “How can I help you?“, please enter “rbc app” to start!
 
 2. Once the application starts, there will be three options popping up:
+
                   a. Search app by its name
+                  
                   b. Search by its app code
+                  
                   c. Search by Contact Person’s name
-              You can enter a, b or c according to your needs
+                  
+     You can enter a, b or c according to your needs
           
 3. Depending on the option you have selected, Kodi will ask you to provide more information such as App Name, App Code or Contact Person’s name.
           
