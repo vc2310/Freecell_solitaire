@@ -79,9 +79,9 @@ Also, all of the options give u further choice of getting team information of ea
 
 Kodi is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
 
-| Plugin | README |
-| ------ | ------ |
-| Github | [team3/README.md](https://github.com/) |
-| Data   | [data.js] |
-| Application | [server.js] |
+| Plugin | README | Description |
+| ------ | ------ | |
+| Github | [team3/README.md](https://github.com/) | The Github repository with README and code files|
+| Data   | [data.js] | The data file consisting the Dataset for this slackbot |
+| Application | [server.js] | The code file |
 
