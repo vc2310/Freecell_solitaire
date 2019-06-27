@@ -19,12 +19,15 @@ Kodi uses the following tech(s) to work properly:
 Kodi lets you search for following 3 things:
 
 > App Name
+
 -Lets you search by the app name and will return you App Code, Description, Tech Stack, TDD Link, MPP Link, Contact person and their email.
 
 > App Code
+
 -Lets you search by the app name and will return you App Name, Description, Tech Stack, TDD Link, MPP Link, Contact person and their email.
 
 >Contact Person
+
 -Lets you search by name and returns all the app name under that person. Further, lets you get all the details for each app.
 
 Also, all of the options give u further choice of getting team information of each app code
